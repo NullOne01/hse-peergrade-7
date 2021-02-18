@@ -8,6 +8,8 @@ namespace QuestManagmentLib
     public class Quest
     {
         public string Name { get; set; }
+
+        public virtual string TypeName { get; set; } = "DefaultQuest";
         // Will be initialized when object is created.
         public DateTime CreateTime { get; } = DateTime.Now;
         

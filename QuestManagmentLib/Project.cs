@@ -5,7 +5,13 @@ namespace QuestManagmentLib
     public class Project
     {
         public string Name { get; set; }
-        public int MaxTaskNum { get; set; } = 3;
-        private List<Quest> quests = new List<Quest>();
+        public int MaxQuestNum { get; set; } = 3;
+        public List<Quest> quests = new List<Quest>();
+
+        public Project(string name, int maxQuestNum)
+        {
+            Name = name;
+            MaxQuestNum = maxQuestNum;
+        }
     }
 }

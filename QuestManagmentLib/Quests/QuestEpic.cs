@@ -14,5 +14,7 @@ namespace QuestManagmentLib
             if (!(newSubQuest is QuestStory || newSubQuest is QuestTask))
                 return;
         }
+        
+        public override string TypeName { get; set; } = "Epic";
     }
 }

@@ -6,5 +6,8 @@ namespace QuestManagmentLib
     {
         public List<User> UsersAssigned { get; set; }
         public int MaxUserAssign { get; set; } = 1;
+        
+        public override string TypeName { get; set; } = "Task";
+
     }
 }
