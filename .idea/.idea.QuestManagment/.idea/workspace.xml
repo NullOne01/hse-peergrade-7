@@ -15,11 +15,9 @@
   <component name="ChangeListManager">
     <list default="true" id="936bafc6-07ae-46e6-ae07-b7ff68cd77b8" name="Default Changelist" comment="On the way doing possibility to modify specific Quest.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.QuestManagment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.QuestManagment/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/ConsoleUtilities/SingletonManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/ConsoleUtilities/SingletonManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/MainProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/MainProgram.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/ProjectProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/ProjectProgram.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/QuestsProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/QuestsProgram.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/SingleQuestProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/SingleQuestProgram.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/UserProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/UserProgram.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QuestManagmentConsole/QuestManagmentConsole.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/QuestManagmentConsole/QuestManagmentConsole.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,12 +72,12 @@
         <option value="$PROJECT_DIR$/QuestManagmentLib/Quests/QuestTask.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentLib/Quests/QuestStory.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentLib/Quests/QuestBug.cs" />
-        <option value="$PROJECT_DIR$/QuestManagmentConsole/ConsoleUtilities/SingletonManager.cs" />
-        <option value="$PROJECT_DIR$/QuestManagmentConsole/MainProgram.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentConsole/QuestsProgram.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentConsole/UserProgram.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentConsole/SingleQuestProgram.cs" />
         <option value="$PROJECT_DIR$/QuestManagmentConsole/ProjectProgram.cs" />
+        <option value="$PROJECT_DIR$/QuestManagmentConsole/ConsoleUtilities/SingletonManager.cs" />
+        <option value="$PROJECT_DIR$/QuestManagmentConsole/MainProgram.cs" />
       </list>
     </option>
   </component>
@@ -137,7 +135,7 @@
       <workItem from="1613586267933" duration="6443000" />
       <workItem from="1613594760442" duration="4582000" />
       <workItem from="1613662247418" duration="16872000" />
-      <workItem from="1613747843710" duration="14615000" />
+      <workItem from="1613747843710" duration="18783000" />
     </task>
     <task id="LOCAL-00001" summary="On the way doing possibility to modify specific Quest.">
       <created>1613673477187</created>
@@ -153,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613758567941</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed possible StackOverflow. Removed recursion. On the way doing Serialization.">
+      <created>1613763174203</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1613763174203</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,7 +182,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="On the way doing possibility to modify specific Quest." />
     <MESSAGE value="Everything should work now. On the way doing Serialization." />
-    <option name="LAST_COMMIT_MESSAGE" value="Everything should work now. On the way doing Serialization." />
+    <MESSAGE value="Fixed possible StackOverflow. Removed recursion. On the way doing Serialization." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed possible StackOverflow. Removed recursion. On the way doing Serialization." />
   </component>
   <component name="WindowStateProjectService">
     <state x="708" y="344" key="#Notifications" timestamp="1613586155598">
@@ -192,22 +198,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="747" y="225" key="Github.UntrackedFilesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613586666286" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1613761690071">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1613767373631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613761690071" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1613761690071">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613767373631" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1613767373631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613761690071" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1613761690070">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613767373631" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1613767373631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613761690070" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1613761690071">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613767373631" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1613767373631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613761690071" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613767373631" />
     <state width="1877" height="375" key="GridCell.Tab.1.bottom" timestamp="1613686104776">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -276,9 +282,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="251" key="Rider.ProjectTemplateDialog.Size/0.0.1920.1040@0.0.1920.1040" timestamp="1613587022324" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1613758573463">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1613763176352">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613758573463" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613763176352" />
   </component>
 </project>

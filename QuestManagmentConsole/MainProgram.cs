@@ -21,6 +21,7 @@ namespace QuestManagmentConsole
 
         static void Main(string[] args)
         {
+            SingletonManager.getInstance().LoadData();
             // On Exit event.
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             Start();
@@ -53,7 +54,7 @@ namespace QuestManagmentConsole
         
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            Console.WriteLine("exit");
+            SingletonManager.getInstance().SaveData();
         }
     }
 }
