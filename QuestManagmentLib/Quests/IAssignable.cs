@@ -13,9 +13,19 @@ namespace QuestManagmentLib
         
         void AssignNewUser(User user)
         {
-            if (MaxUserAssign != -1 && UsersAssigned.Count >= MaxUserAssign)
+            if (IsFull())
                 return;
             UsersAssigned.Add(user);
+        }
+
+        bool IsUserAssigned(User user)
+        {
+            return UsersAssigned.Contains(user);
+        }
+
+        bool IsFull()
+        {
+            return MaxUserAssign != -1 && UsersAssigned.Count >= MaxUserAssign;
         }
     }
 }

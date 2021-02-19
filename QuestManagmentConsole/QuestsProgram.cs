@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using QuestManagmentConsole.ConsoleUtilities;
 using QuestManagmentLib;
@@ -7,48 +8,48 @@ namespace QuestManagmentConsole
 {
     public class QuestsProgram
     {
-        private static int ProjectNum { get; set; }
+        public static Project CurrentProject { get; set; }
 
-        private static MenuNumber questMenu = new MenuNumber(
-            $"Работа с задачами. Проект: {CurrentProject().Name}:",
+        private static MenuNumber questMenu;
+
+        private static List<(string, Action)> questMenuActions = new List<(string, Action)>
+        {
             ("Добавить новую задачу в проект", () =>
             {
                 AddQuest();
-                Start(ProjectNum);
+                Start();
             }),
             ("Удалить задачу из проекта", () =>
             {
                 RemoveQuest();
-                Start(ProjectNum);
+                Start();
             }),
             ("Работа с определённой задачей", () =>
             {
-                //ShowProjects();
-                Start(ProjectNum);
+                StartSingleQuestProgram();
+                Start();
             }),
             ("Список задач", () =>
             {
                 ShowQuests();
-                Start(ProjectNum);
+                Start();
             }),
             ("Список задач (по статусу)", () =>
             {
                 ShowQuests(true);
-                Start(ProjectNum);
+                Start();
             }),
-            ("Вернуться", MainProgram.Start));
+            ("Вернуться", MainProgram.Start)
+        };
 
         private static MenuNumber questTypeMenu = new MenuNumber(
             "Список доступных типов задач.",
             "Epic", "Story", "Task", "Bug");
 
-
-        private static Project CurrentProject() => SingletonManager.getInstance().projectList[ProjectNum];
-
         private static void AddQuest()
         {
             Console.WriteLine("Добавление задачи в проект.");
-            if (CurrentProject().quests.Count >= CurrentProject().MaxQuestNum)
+            if (CurrentProject.quests.Count >= CurrentProject.MaxQuestNum)
             {
                 Console.WriteLine("В проекте превышен лимит задач :c");
                 return;
@@ -60,23 +61,24 @@ namespace QuestManagmentConsole
             Quest newQuest = CreateQuestTypeInt(questTypeMenu.ExecuteMenuRes());
             newQuest.Name = questName;
 
-            CurrentProject().quests.Add(newQuest);
+            CurrentProject.quests.Add(newQuest);
             Console.WriteLine("Добавлена новая задача в проект.");
         }
 
         private static void RemoveQuest()
         {
             Console.WriteLine("Удаление задачи из проекта.");
-            var questList = CurrentProject().quests;
+            var questList = CurrentProject.quests;
             if (questList.Count <= 0)
             {
                 Console.WriteLine("Нечего удалять :c");
                 return;
             }
 
-            int userNum = ConsoleFunctions.ReadIntNoException("Введите номер задачи: ",
+            int questNum = ConsoleFunctions.ReadIntNoException("Введите номер задачи: ",
                 (num) => num >= 1 && num <= questList.Count);
-            questList.RemoveAt(userNum - 1);
+            Quest questRemove = questList[questNum - 1];
+            SingletonManager.getInstance().FullQuestRemove(CurrentProject, questRemove);
             Console.WriteLine("Задача удалена.");
         }
 
@@ -84,7 +86,7 @@ namespace QuestManagmentConsole
         {
             Console.WriteLine("Список задач: ");
 
-            var quests = CurrentProject().quests;
+            var quests = CurrentProject.quests;
             if (quests.Count <= 0)
             {
                 Console.WriteLine("Список пуст :c");
@@ -115,13 +117,31 @@ namespace QuestManagmentConsole
             }
         }
 
-        private static void PrintQuest(int questIndex)
+        private static void StartSingleQuestProgram()
         {
-            var quests = CurrentProject().quests;
+            var quests = CurrentProject.quests;
+            if (quests.Count <= 0)
+            {
+                Console.WriteLine("Задач нет :c");
+                return;
+            }
+
+            int questNum =
+                ConsoleFunctions.ReadIntNoException($"Введите номер задачи (1 <= n <= {quests.Count}): ",
+                    (num) => num >= 1 && num <= quests.Count);
+
+            SingleQuestProgram.Start(quests[questNum - 1]);
+        }
+
+        public static void PrintQuest(int questIndex)
+        {
+            var quests = CurrentProject.quests;
             Console.WriteLine(
-                $"Задача. Номер: {questIndex + 1}. Тип: {quests[questIndex].TypeName} Имя: {quests[questIndex].Name}\n" +
-                $"Дата создания: {quests[questIndex].CreateTime} Статус: {GetStatusName(quests[questIndex].status)}\n" +
-                "Список исполнителей: ");
+                $"Задача. Номер: {questIndex + 1}. Тип: {quests[questIndex].TypeName}. Имя: {quests[questIndex].Name}.\n" +
+                $"Дата создания: {quests[questIndex].CreateTime}. Статус: {quests[questIndex].status.GetStatusName()}.");
+            if (!(quests[questIndex] is IAssignable))
+                return;
+            Console.WriteLine("Список исполнителей: ");
             IAssignable assignable = (IAssignable) quests[questIndex];
             if (assignable.UsersAssigned.Count <= 0)
             {
@@ -136,19 +156,9 @@ namespace QuestManagmentConsole
             }
         }
 
-        private static string GetStatusName(QuestStatus status)
+        public static void PrintQuest(Quest quest)
         {
-            switch (status)
-            {
-                case QuestStatus.IsOpened:
-                    return "Открытая задача";
-                case QuestStatus.InWork:
-                    return "Задача в работе";
-                case QuestStatus.Finished:
-                    return "Завершенная задача";
-            }
-
-            return "UNDEFINED";
+            PrintQuest(CurrentProject.quests.IndexOf(quest));
         }
 
         private static Quest CreateQuestTypeInt(int questTypeNum)
@@ -176,9 +186,16 @@ namespace QuestManagmentConsole
             return newQuest;
         }
 
-        public static void Start(int projectNum)
+        public static void Start(Project project)
         {
-            ProjectNum = projectNum;
+            CurrentProject = project;
+            questMenu = new MenuNumber($"Работа с задачами. Проект: {CurrentProject.Name}:",
+                questMenuActions.ToArray());
+            Start();
+        }
+
+        public static void Start()
+        {
             questMenu.ExecuteMenu();
         }
     }

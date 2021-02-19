@@ -26,7 +26,6 @@ namespace QuestManagmentConsole
 
         public static void Start()
         {
-            // TODO: Recursion?
             userMenu.ExecuteMenu();
         }
 
@@ -67,7 +66,7 @@ namespace QuestManagmentConsole
 
             int userNum = ConsoleFunctions.ReadIntNoException("Введите номер пользователя: ",
                 (num) => num >= 1 && num <= userList.Count);
-            userList.RemoveAt(userNum - 1);
+            SingletonManager.getInstance().FullUserRemove(userList[userNum - 1]);
             Console.WriteLine("Пользователь удалён.");
         }
     }

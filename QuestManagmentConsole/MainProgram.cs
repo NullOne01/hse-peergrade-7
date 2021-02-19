@@ -35,7 +35,7 @@ namespace QuestManagmentConsole
             int projectNum =
                 ConsoleFunctions.ReadIntNoException($"Введите номер проекта (1 <= n <= {projects.Count}): ",
                     (num) => num >= 1 && num <= projects.Count);
-            QuestsProgram.Start(projectNum);
+            QuestsProgram.Start(SingletonManager.getInstance().projectList[projectNum - 1]);
         }
     }
 }

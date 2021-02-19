@@ -28,7 +28,7 @@ namespace QuestManagmentConsole
                 Start();
             }),
             ("Вернуться", MainProgram.Start));
-        
+
         public static void Start()
         {
             projectMenu.ExecuteMenu();
@@ -38,13 +38,14 @@ namespace QuestManagmentConsole
         {
             Console.WriteLine("Создание проекта.");
             string newProjectName = ConsoleFunctions.ReadLineNoException("Введите имя проекта: ");
-            int maxProjectNum = 
-                ConsoleFunctions.ReadIntNoException("Введите максимальное количество заданий в проекте (1 <= n <= 100): ",
+            int maxProjectNum =
+                ConsoleFunctions.ReadIntNoException(
+                    "Введите максимальное количество задач в проекте (1 <= n <= 100): ",
                     (num) => num >= 1 && num <= 100);
             SingletonManager.getInstance().projectList.Add(new Project(newProjectName, maxProjectNum));
             Console.WriteLine("Проект создан.");
         }
-        
+
         private static void ShowProjects()
         {
             Console.WriteLine("Список проектов: ");
@@ -52,13 +53,13 @@ namespace QuestManagmentConsole
             if (projects.Count <= 0)
             {
                 Console.WriteLine("Список пуст :c");
+                return;
             }
-            else
+
+            for (int i = 0; i < projects.Count; i++)
             {
-                for (int i = 0; i < projects.Count; i++)
-                {
-                    Console.WriteLine($"Проект. Номер: {i + 1}. Имя: {projects[i].Name}. Количество задач: {projects[i].quests.Count}");
-                }
+                Console.WriteLine(
+                    $"Проект. Номер: {i + 1}. Имя: {projects[i].Name}. Количество задач: {projects[i].quests.Count}");
             }
         }
 
@@ -77,7 +78,7 @@ namespace QuestManagmentConsole
                     (num) => num >= 1 && num <= projects.Count);
             string projectName = ConsoleFunctions.ReadLineNoException("Введите имя проекта: ");
             projects[projectNum - 1].Name = projectName;
-            
+
             Console.WriteLine("Название проекта изменено.");
         }
 
@@ -95,7 +96,7 @@ namespace QuestManagmentConsole
                 ConsoleFunctions.ReadIntNoException($"Введите номер проекта (1 <= n <= {projects.Count}): ",
                     (num) => num >= 1 && num <= projects.Count);
             projects.RemoveAt(projectNum - 1);
-            
+
             Console.WriteLine("Проект удалён.");
         }
     }

@@ -4,8 +4,26 @@
     // like: 0 - IsOpened, 1 - InWork etc.
     public enum QuestStatus
     {
-        IsOpened,
+        IsOpened = 0,
         InWork,
         Finished
+    }
+
+    public static class QuestStatusExtensions
+    {
+        public static string GetStatusName(this QuestStatus status)
+        {
+            switch (status)
+            {
+                case QuestStatus.IsOpened:
+                    return "Открытая задача";
+                case QuestStatus.InWork:
+                    return "Задача в работе";
+                case QuestStatus.Finished:
+                    return "Завершенная задача";
+                default:
+                    return status.ToString();
+            }
+        }
     }
 }
