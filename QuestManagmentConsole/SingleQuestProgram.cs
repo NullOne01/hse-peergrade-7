@@ -8,63 +8,62 @@ namespace QuestManagmentConsole
 {
     public class SingleQuestProgram
     {
+        private static bool shouldClose;
         private static Quest Quest { get; set; }
 
-        private static List<(string, Action)> epicPartMenu = new List<(string, Action)>
+        private static readonly List<(string, Action)> epicPartMenu = new List<(string, Action)>
         {
-            ("[Epic] Назначить подзадачу", () =>
-            {
-                EpicAddQuest();
-                Start();
-            }),
-            ("[Epic] Список подзадач", () =>
-            {
-                EpicShowQuests();
-                Start();
-            }),
-            ("[Epic] Удалить подзадачу", () =>
-            {
-                EpicRemoveQuest();
-                Start();
-            })
+            ("[Epic] Назначить подзадачу", EpicAddQuest),
+            ("[Epic] Список подзадач", EpicShowQuests),
+            ("[Epic] Удалить подзадачу", EpicRemoveQuest)
         };
 
-        private static List<(string, Action)> notEpicPartMenu = new List<(string, Action)>
+        private static readonly List<(string, Action)> notEpicPartMenu = new List<(string, Action)>
         {
-            ("Назначить исполнителя", () =>
-            {
-                AddQuestUser();
-                Start();
-            }),
-            ("Измененить исполнителя задачи", () =>
-            {
-                ChangeQuestUser();
-                Start();
-            }),
-            ("Удалить исполнителя из задачи", () =>
-            {
-                RemoveQuestUser();
-                Start();
-            })
+            ("Назначить исполнителя", AddQuestUser),
+            ("Измененить исполнителя задачи", ChangeQuestUser),
+            ("Удалить исполнителя из задачи", RemoveQuestUser)
         };
 
-        private static List<(string, Action)> generalPartMenu = new List<(string, Action)>
+        private static readonly List<(string, Action)> generalPartMenu = new List<(string, Action)>
         {
-            ("Изменить статус задачи", () =>
-            {
-                ChangeStatus();
-                Start();
-            }),
-            ("Вернуться", QuestsProgram.Start)
+            ("Изменить статус задачи", ChangeStatus),
+            ("Вернуться", () => { shouldClose = true; })
         };
 
         private static MenuNumber singleQuestMenu;
 
-        private static MenuNumber statusChangeMenu = new MenuNumber("На что поменять статус?",
+        private static readonly MenuNumber statusChangeMenu = new MenuNumber("На что поменять статус?",
             QuestStatus.IsOpened.GetStatusName(),
             QuestStatus.InWork.GetStatusName(),
             QuestStatus.Finished.GetStatusName());
 
+        public SingleQuestProgram(Quest quest)
+        {
+            shouldClose = false;
+            Quest = quest;
+            var listForMenu = generalPartMenu;
+            // If our Quest is QuestEpic then we add additional functions to our menu.
+            if (Quest is QuestEpic)
+            {
+                listForMenu = epicPartMenu.Concat(listForMenu).ToList();
+            }
+            else
+            {
+                listForMenu = notEpicPartMenu.Concat(listForMenu).ToList();
+            }
+
+            singleQuestMenu = new MenuNumber($"Работа с задачей {Quest.Name}:", listForMenu.ToArray());
+        }
+        
+        public void Start()
+        {
+            while (!shouldClose)
+            {
+                singleQuestMenu.ExecuteMenu();
+            }
+        }
+        
         #region Epic
 
         private static void EpicAddQuest()
@@ -181,12 +180,13 @@ namespace QuestManagmentConsole
                 Console.WriteLine("Исполнителей нет :c");
                 return;
             }
+
             if (assignable.UsersAssigned.Count >= userList.Count)
             {
                 Console.WriteLine("Все пользователи уже работают над этой задачей.");
                 return;
             }
-            
+
             int oldUserNum = ConsoleFunctions.ReadIntNoException(
                 "Введите номер исполнителя (из общего списка), которого вы хотите заменить: ",
                 (num) => num >= 1 && num <= userList.Count);
@@ -196,7 +196,7 @@ namespace QuestManagmentConsole
                 Console.WriteLine("Данный пользователь не является исполнителем");
                 return;
             }
-            
+
             int newUserNum = ConsoleFunctions.ReadIntNoException(
                 "Введите номер пользователя (из общего списка), который станет исполнителем: ",
                 (num) => num >= 1 && num <= userList.Count);
@@ -222,6 +222,7 @@ namespace QuestManagmentConsole
                 Console.WriteLine("Исполнителей нет :c");
                 return;
             }
+
             int userNum = ConsoleFunctions.ReadIntNoException(
                 "Введите номер исполнителя (из общего списка), которого вы хотите удалить: ",
                 (num) => num >= 1 && num <= userList.Count);
@@ -231,7 +232,7 @@ namespace QuestManagmentConsole
                 Console.WriteLine("Данный пользователь не является исполнителем");
                 return;
             }
-            
+
             assignable.UsersAssigned.Remove(user);
             Console.WriteLine("Исполнитель удалён.");
         }
@@ -245,28 +246,5 @@ namespace QuestManagmentConsole
         }
 
         #endregion
-
-        public static void Start(Quest quest)
-        {
-            Quest = quest;
-            Start();
-        }
-
-        public static void Start()
-        {
-            var listForMenu = generalPartMenu;
-            // If our Quest is QuestEpic then we add additional functions to our menu.
-            if (Quest is QuestEpic)
-            {
-                listForMenu = epicPartMenu.Concat(listForMenu).ToList();
-            }
-            else
-            {
-                listForMenu = notEpicPartMenu.Concat(listForMenu).ToList();
-            }
-
-            singleQuestMenu = new MenuNumber($"Работа с задачей {Quest.Name}:", listForMenu.ToArray());
-            singleQuestMenu.ExecuteMenu();
-        }
     }
 }

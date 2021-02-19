@@ -10,41 +10,38 @@ namespace QuestManagmentConsole
     {
         public static Project CurrentProject { get; set; }
 
-        private static MenuNumber questMenu;
+        private MenuNumber questMenu;
+        private static bool shouldClose;
 
-        private static List<(string, Action)> questMenuActions = new List<(string, Action)>
+        private readonly List<(string, Action)> questMenuActions = new List<(string, Action)>
         {
-            ("Добавить новую задачу в проект", () =>
-            {
-                AddQuest();
-                Start();
-            }),
-            ("Удалить задачу из проекта", () =>
-            {
-                RemoveQuest();
-                Start();
-            }),
-            ("Работа с определённой задачей", () =>
-            {
-                StartSingleQuestProgram();
-                Start();
-            }),
-            ("Список задач", () =>
-            {
-                ShowQuests();
-                Start();
-            }),
-            ("Список задач (по статусу)", () =>
-            {
-                ShowQuests(true);
-                Start();
-            }),
-            ("Вернуться", MainProgram.Start)
+            ("Добавить новую задачу в проект", AddQuest),
+            ("Удалить задачу из проекта", RemoveQuest),
+            ("Работа с определённой задачей", StartSingleQuestProgram),
+            ("Список задач", () => { ShowQuests(); }),
+            ("Список задач (по статусу)", () => { ShowQuests(true); }),
+            ("Вернуться", () => { shouldClose = true; })
         };
 
-        private static MenuNumber questTypeMenu = new MenuNumber(
+        private static readonly MenuNumber questTypeMenu = new MenuNumber(
             "Список доступных типов задач.",
             "Epic", "Story", "Task", "Bug");
+
+        public QuestsProgram(Project project)
+        {
+            shouldClose = false;
+            CurrentProject = project;
+            questMenu = new MenuNumber($"Работа с задачами. Проект: {CurrentProject.Name}:",
+                questMenuActions.ToArray());
+        }
+
+        public void Start()
+        {
+            while (!shouldClose)
+            {
+                questMenu.ExecuteMenu();
+            }
+        }
 
         private static void AddQuest()
         {
@@ -130,7 +127,7 @@ namespace QuestManagmentConsole
                 ConsoleFunctions.ReadIntNoException($"Введите номер задачи (1 <= n <= {quests.Count}): ",
                     (num) => num >= 1 && num <= quests.Count);
 
-            SingleQuestProgram.Start(quests[questNum - 1]);
+            new SingleQuestProgram(quests[questNum - 1]).Start();
         }
 
         public static void PrintQuest(int questIndex)
@@ -184,19 +181,6 @@ namespace QuestManagmentConsole
             }
 
             return newQuest;
-        }
-
-        public static void Start(Project project)
-        {
-            CurrentProject = project;
-            questMenu = new MenuNumber($"Работа с задачами. Проект: {CurrentProject.Name}:",
-                questMenuActions.ToArray());
-            Start();
-        }
-
-        public static void Start()
-        {
-            questMenu.ExecuteMenu();
         }
     }
 }

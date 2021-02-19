@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Threading;
 using QuestManagmentConsole.ConsoleUtilities;
 
 namespace QuestManagmentConsole
@@ -6,20 +8,31 @@ namespace QuestManagmentConsole
     class MainProgram
     {
         private static MenuNumber mainMenu = new MenuNumber("Главное меню действий:",
-            ("Работа с пользователями", UserProgram.Start),
-            ("Работа с проектами", ProjectProgram.Start),
+            ("Работа с пользователями", () =>
+            {
+                new UserProgram().Start();
+            }),
+            ("Работа с проектами", () =>
+            {
+                new ProjectProgram().Start();
+            }),
             ("Работа с задачами в проекте", StartQuestProgram),
-            ("Выход", () => { Console.WriteLine("До связи"); }));
+            ("Выход", () => { Environment.Exit(1); }));
 
         static void Main(string[] args)
         {
+            // On Exit event.
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             Start();
         }
 
-        public static void Start()
+        private static void Start()
         {
-            mainMenu.ExecuteMenu();
-            // If on end is called here, then it can be called multiply times.
+            // Exit is the only option to get out of this loop.
+            while (true)
+            {
+                mainMenu.ExecuteMenu();
+            }
         }
 
         private static void StartQuestProgram()
@@ -35,7 +48,12 @@ namespace QuestManagmentConsole
             int projectNum =
                 ConsoleFunctions.ReadIntNoException($"Введите номер проекта (1 <= n <= {projects.Count}): ",
                     (num) => num >= 1 && num <= projects.Count);
-            QuestsProgram.Start(SingletonManager.getInstance().projectList[projectNum - 1]);
+            new QuestsProgram(SingletonManager.getInstance().projectList[projectNum - 1]).Start();
+        }
+        
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Console.WriteLine("exit");
         }
     }
 }

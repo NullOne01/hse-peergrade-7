@@ -6,27 +6,25 @@ namespace QuestManagmentConsole
 {
     public class UserProgram
     {
-        private static MenuNumber userMenu = new MenuNumber("Работа с пользователями:",
-            ("Создать пользователя", () =>
-            {
-                AddUser();
-                Start();
-            }),
-            ("Показать список пользователей", () =>
-            {
-                ShowUserList();
-                Start();
-            }),
-            ("Удалить пользователя", () =>
-            {
-                DeleteUser();
-                Start();
-            }),
-            ("Вернуться", MainProgram.Start));
+        private static bool shouldClose;
 
-        public static void Start()
+        private static MenuNumber userMenu = new MenuNumber("Работа с пользователями:",
+            ("Создать пользователя", AddUser),
+            ("Показать список пользователей", ShowUserList),
+            ("Удалить пользователя", DeleteUser),
+            ("Вернуться", () => { shouldClose = true; }));
+
+        public UserProgram()
         {
-            userMenu.ExecuteMenu();
+            shouldClose = false;
+        }
+        
+        public void Start()
+        {
+            while (!shouldClose)
+            {
+                userMenu.ExecuteMenu();
+            }
         }
 
         private static void AddUser()

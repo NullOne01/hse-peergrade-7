@@ -6,32 +6,26 @@ namespace QuestManagmentConsole
 {
     public class ProjectProgram
     {
-        private static MenuNumber projectMenu = new MenuNumber("Работа с пользователями:",
-            ("Создать проект", () =>
-            {
-                CreateProject();
-                Start();
-            }),
-            ("Показать список проектов", () =>
-            {
-                ShowProjects();
-                Start();
-            }),
-            ("Изменить название проекта", () =>
-            {
-                ChangeProjectName();
-                Start();
-            }),
-            ("Удалить проект", () =>
-            {
-                DeleteProject();
-                Start();
-            }),
-            ("Вернуться", MainProgram.Start));
+        private static bool shouldClose;
 
-        public static void Start()
+        private readonly MenuNumber projectMenu = new MenuNumber("Работа с пользователями:",
+            ("Создать проект", CreateProject),
+            ("Показать список проектов", ShowProjects),
+            ("Изменить название проекта", ChangeProjectName),
+            ("Удалить проект", DeleteProject),
+            ("Вернуться", () => { shouldClose = true; }));
+
+        public ProjectProgram()
         {
-            projectMenu.ExecuteMenu();
+            shouldClose = false;
+        }
+
+        public void Start()
+        {
+            while (!shouldClose)
+            {
+                projectMenu.ExecuteMenu();
+            }
         }
 
         private static void CreateProject()
