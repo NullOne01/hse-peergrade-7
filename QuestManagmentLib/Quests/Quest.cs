@@ -7,13 +7,24 @@ namespace QuestManagmentLib
     /// </summary>
     public class Quest
     {
+        /// <summary>
+        /// Name of our Quest.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Name of our quest type.
+        /// </summary>
         public virtual string TypeName { get; set; } = "DefaultQuest";
-
-        // Will be initialized when object is created.
+        
+        /// <summary>
+        /// Will be initialized when object is created.
+        /// </summary>
         public DateTime CreateTime { get; } = DateTime.Now;
 
+        /// <summary>
+        /// Status of the Quest.
+        /// </summary>
         public QuestStatus status = QuestStatus.IsOpened;
 
         public override string ToString()

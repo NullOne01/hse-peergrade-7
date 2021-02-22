@@ -5,9 +5,12 @@ using QuestManagmentConsole.ConsoleUtilities;
 
 namespace QuestManagmentConsole
 {
+    /// <summary>
+    /// Start point of the Console app.
+    /// </summary>
     class MainProgram
     {
-        private static MenuNumber mainMenu = new MenuNumber("Главное меню действий:",
+        private static readonly MenuNumber mainMenu = new MenuNumber("Главное меню действий:",
             ("Работа с пользователями", () =>
             {
                 new UserProgram().Start();
@@ -29,13 +32,16 @@ namespace QuestManagmentConsole
 
         private static void Start()
         {
-            // Exit is the only option to get out of this loop.
+            // App close is the only option to get out of this loop.
             while (true)
             {
                 mainMenu.ExecuteMenu();
             }
         }
 
+        /// <summary>
+        /// Starting quest sub menu with passing params.
+        /// </summary>
         private static void StartQuestProgram()
         {
             var projects = SingletonManager.getInstance().projectList;
@@ -52,6 +58,9 @@ namespace QuestManagmentConsole
             new QuestsProgram(SingletonManager.getInstance().projectList[projectNum - 1]).Start();
         }
         
+        /// <summary>
+        /// Save data on application close.
+        /// </summary>
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             SingletonManager.getInstance().SaveData();

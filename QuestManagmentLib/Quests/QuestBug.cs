@@ -2,6 +2,9 @@
 
 namespace QuestManagmentLib
 {
+    /// <summary>
+    /// Quest of type Bug.
+    /// </summary>
     public class QuestBug : Quest, IAssignable
     {
         public List<User> UsersAssigned { get; set; } = new List<User>();

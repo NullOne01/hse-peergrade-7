@@ -9,6 +9,9 @@ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace QuestManagmentConsole.ConsoleUtilities
 {
+    /// <summary>
+    /// Main model of the app. Uses singleton pattern. Collects data (project and users). Saves and load this data.
+    /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class SingletonManager
     {
@@ -19,15 +22,21 @@ namespace QuestManagmentConsole.ConsoleUtilities
 
         public static SingletonManager getInstance()
         {
+            // Singleton pattern.
             if (instance == null)
                 instance = new SingletonManager();
             return instance;
         }
 
+        /// <summary>
+        /// Full user-reference remove. User is removed from the general list, then
+        /// they should be removed from each quest.
+        /// </summary>
+        /// <param name="user"> User to remove. </param>
         public void FullUserRemove(User user)
         {
             userList.Remove(user);
-            // Full user-reference remove. 
+
             foreach (var project in projectList)
             {
                 foreach (var quest in project.quests)
@@ -43,10 +52,15 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
         }
 
+        /// <summary>
+        /// Full quest-reference remove. Quest is removed from the general list, then it should be
+        /// removed from each sub quest (of QuestEpic).
+        /// </summary>
+        /// <param name="project"> Project to remove quest from. </param>
+        /// <param name="removeQuest"> Quest to remove. </param>
         public void FullQuestRemove(Project project, Quest removeQuest)
         {
             project.quests.Remove(removeQuest);
-            // Full quest-reference remove. 
 
             foreach (var quest in project.quests)
             {
@@ -60,6 +74,9 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
         }
 
+        /// <summary>
+        /// Save project and users into 2 json files.
+        /// </summary>
         public void SaveData()
         {
             try
@@ -76,10 +93,13 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
             catch
             {
-                // ignored
+                // ignored. Just can't save.
             }
         }
 
+        /// <summary>
+        /// Load projects and users from 2 json files.
+        /// </summary>
         public void LoadData()
         {
             try
@@ -96,6 +116,7 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
             catch
             {
+                // If we can't load, then we should empty lists as default.
                 userList = new List<User>();
                 projectList = new List<Project>();
             }

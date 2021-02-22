@@ -2,8 +2,16 @@
 
 namespace QuestManagmentConsole.ConsoleUtilities
 {
+    /// <summary>
+    /// Some frequently used static methods for work with console.
+    /// </summary>
     public static class ConsoleFunctions
     {
+        /// <summary>
+        /// Get user's input string. Repeats until no exceptions.
+        /// </summary>
+        /// <param name="preMessage"> Message to print before each input. </param>
+        /// <returns> User's input string. </returns>
         public static string ReadLineNoException(string preMessage = "Введите: ")
         {
             while (true)
@@ -20,6 +28,11 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
         }
         
+        /// <summary>
+        /// Get user's input int. Repeats until no exceptions.
+        /// </summary>
+        /// <param name="preMessage"> Message to print before each input. </param>
+        /// <returns> User's input int. </returns>
         public static int ReadIntNoException(string preMessage = "Введите число: ")
         {
             while (true)
@@ -36,6 +49,12 @@ namespace QuestManagmentConsole.ConsoleUtilities
             }
         }
         
+        /// <summary>
+        /// Get user's input int. Repeats until no exceptions and no problems with condition.
+        /// </summary>
+        /// <param name="preMessage"> Message to print before each input. </param>
+        /// <param name="condition"> Condition function. Gets number and returns bool. </param>
+        /// <returns> User's input int. </returns>
         public static int ReadIntNoException(string preMessage, Func<int, bool> condition)
         {
             while (true)

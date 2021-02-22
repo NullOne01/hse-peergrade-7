@@ -6,11 +6,17 @@ using QuestManagmentLib;
 
 namespace QuestManagmentConsole
 {
+    /// <summary>
+    /// UI to work with chosen quest.
+    /// </summary>
     public class SingleQuestProgram
     {
         private static bool shouldClose;
         private static Quest Quest { get; set; }
 
+        /// <summary>
+        /// Part of the menu if chosen quest is Epic.
+        /// </summary>
         private static readonly List<(string, Action)> epicPartMenu = new List<(string, Action)>
         {
             ("[Epic] Назначить подзадачу", EpicAddQuest),
@@ -18,6 +24,9 @@ namespace QuestManagmentConsole
             ("[Epic] Удалить подзадачу", EpicRemoveQuest)
         };
 
+        /// <summary>
+        /// Part of the menu if chosen quest is not Epic.
+        /// </summary>
         private static readonly List<(string, Action)> notEpicPartMenu = new List<(string, Action)>
         {
             ("Назначить исполнителя", AddQuestUser),
@@ -25,6 +34,9 @@ namespace QuestManagmentConsole
             ("Удалить исполнителя из задачи", RemoveQuestUser)
         };
 
+        /// <summary>
+        /// Just some general part of the menu.
+        /// </summary>
         private static readonly List<(string, Action)> generalPartMenu = new List<(string, Action)>
         {
             ("Изменить статус задачи", ChangeStatus),

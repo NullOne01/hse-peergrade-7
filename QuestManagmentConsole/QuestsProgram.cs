@@ -6,8 +6,15 @@ using QuestManagmentLib;
 
 namespace QuestManagmentConsole
 {
+    /// <summary>
+    /// UI to work with quests.
+    /// </summary>
     public class QuestsProgram
     {
+        /// <summary>
+        /// CurrentProject to get quests from. This project is static cause it is used in static methods.
+        /// Why methods are static? Cause they are actions for the menu.
+        /// </summary>
         public static Project CurrentProject { get; set; }
 
         private MenuNumber questMenu;

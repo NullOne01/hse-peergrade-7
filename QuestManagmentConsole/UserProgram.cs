@@ -4,6 +4,9 @@ using QuestManagmentLib;
 
 namespace QuestManagmentConsole
 {
+    /// <summary>
+    /// UI to work with users.
+    /// </summary>
     public class UserProgram
     {
         private static bool shouldClose;

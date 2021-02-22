@@ -4,8 +4,15 @@ using QuestManagmentLib;
 
 namespace QuestManagmentConsole
 {
+    /// <summary>
+    /// UI to work with project.
+    /// </summary>
     public class ProjectProgram
     {
+        /// <summary>
+        /// If true, then we return to the MainProgram. We can't inherit it cause it is statis.
+        /// Why is it static? Cause I change it using Actions. It sucks tbh.
+        /// </summary>
         private static bool shouldClose;
 
         private readonly MenuNumber projectMenu = new MenuNumber("Работа с пользователями:",

@@ -2,6 +2,9 @@
 
 namespace QuestManagmentLib
 {
+    /// <summary>
+    /// Quest of type Task.
+    /// </summary>
     public class QuestTask : Quest, IAssignable
     {
         public List<User> UsersAssigned { get; set; } = new List<User>();
